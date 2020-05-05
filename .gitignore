@@ -19,7 +19,7 @@ jmx.log
 derby.log
 spring-test/test-output/
 argfile*
-pom.xml
+#pom.xml
 activemq-data/
 
 classes/

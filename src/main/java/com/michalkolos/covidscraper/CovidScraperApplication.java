@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CovidScraperApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CovidScraperApplication.class, args);
+	public static void main(String[] args) { SpringApplication.run(CovidScraperApplication.class, args);
 	}
-
 }
