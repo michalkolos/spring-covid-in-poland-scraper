@@ -3,6 +3,8 @@ HELP.md
 !**/src/main/**
 !**/src/test/**
 
+/data/
+
 ### Spring ###
 *.java.hsp
 *.sonarj
