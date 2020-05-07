@@ -1,23 +1,18 @@
-package com.michalkolos.covidscraper.virus;
+package com.michalkolos.covidscraper.service;
 
-import com.michalkolos.covidscraper.service.SnapshotService;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 @Service
-public class MszScraperService {
+public class VirusScraperService {
 
 
 	public static final String CSV_SPLIT_CHAR = ";";
@@ -31,7 +26,7 @@ public class MszScraperService {
 	SnapshotService snapshotService;
 
 	@Autowired
-	public MszScraperService(SnapshotService snapshotService) {
+	public VirusScraperService(SnapshotService snapshotService) {
 		this.snapshotService = snapshotService;
 	}
 
@@ -83,10 +78,9 @@ public class MszScraperService {
 
 		Scanner scanner = new Scanner(dataString);
 		scanner.nextLine();
-
-		String line = "";
+		
 		while (scanner.hasNextLine()) {
-			line = scanner.nextLine();
+			String line = scanner.nextLine();
 			String[] values = line.split(CSV_SPLIT_CHAR);
 
 			snapshotService.addVirusDataPoint(values[VOIVO_CSV_COLUMN],
