@@ -35,24 +35,24 @@ public class SnapshotService {
 		this.voivoRepository = voivoRepository;
 	}
 
-	public void createSnapshot(LocalDateTime dateTime){
+	public void createSnapshot(LocalDateTime dateTime) {
 		snapshot = new Snapshot();
 		snapshot.setDateTime(dateTime);
 		snapshot.setVirusDataPoints(new HashSet<>());
 	}
 
-	public void addVirusDataPoint(String voioName, long cases, long deaths, String sourceId){
+	public void addVirusDataPoint(String voioName, long cases, long deaths, String sourceId) {
 		Set<VirusDataPoint> dataPoints = snapshot.getVirusDataPoints();
 
 		AtomicBoolean dataPointExists = new AtomicBoolean(false);
 
-		dataPoints.forEach(dataPoint->{
-			if(dataPoint.getVoivo().getSourceId().equals(sourceId)){
+		dataPoints.forEach(dataPoint -> {
+			if (dataPoint.getVoivo().getSourceId().equals(sourceId)) {
 				dataPointExists.set(true);
 			}
 		});
 
-		if(!dataPointExists.get()){
+		if (!dataPointExists.get()) {
 			VirusDataPoint virusDataPoint = new VirusDataPoint();
 			virusDataPoint.setCases(cases);
 			virusDataPoint.setDeaths(deaths);
@@ -71,13 +71,13 @@ public class SnapshotService {
 
 	}
 
-	public void printSnapshot(){
+	public void printSnapshot() {
 
 		System.out.println(snapshot.getDateTime().toString());
 
 		StringBuilder sb = new StringBuilder();
 
-		for(VirusDataPoint virusDataPoint : snapshot.getVirusDataPoints()){
+		for (VirusDataPoint virusDataPoint : snapshot.getVirusDataPoints()) {
 			sb.append(String.format("%20s", virusDataPoint.getVoivo().getName()));
 			sb.append(":");
 			sb.append("   cases: ");
@@ -93,26 +93,30 @@ public class SnapshotService {
 	}
 
 	@Transactional
-	public void saveSnapshot(){
-		if(snapshot != null &&
-				!snapshotRepository.existsSnapshotByDateTime(snapshot.getDateTime())){
-
-			for(VirusDataPoint virusDataPoint : snapshot.getVirusDataPoints()){
-
-				String sourceId = virusDataPoint.getVoivo().getSourceId();
-
-				if(voivoRepository.existsBySourceId(sourceId)){
-					Voivo existingVoivo = voivoRepository.findBySourceId(sourceId);
-					virusDataPoint.setVoivo(existingVoivo);
-					existingVoivo.getVirusDataPoints().add(virusDataPoint);
-				}else{
-					voivoRepository.save(virusDataPoint.getVoivo());
-				}
-				snapshot.getVirusDataPoints().add(virusDataPoint);
-//				virusDataPointRepository.save(virusDataPoint);
-			}
+	public void saveSnapshot() {
+		if (isSnapshotNew()) {
 
 			snapshotRepository.save(snapshot);
+
+			snapshot.getVirusDataPoints().forEach((VirusDataPoint dataPoint)->{
+				syncVoivo(dataPoint);
+				virusDataPointRepository.save(dataPoint);
+			});
+		}
+	}
+
+	private boolean isSnapshotNew() {
+		return snapshot != null &&
+				!snapshotRepository.existsSnapshotByDateTime(snapshot.getDateTime());
+	}
+
+	private void syncVoivo(VirusDataPoint dataPoint) {
+		String sourceId = dataPoint.getVoivo().getSourceId();
+
+		if (voivoRepository.existsBySourceId(sourceId)) {
+			dataPoint.setVoivo(voivoRepository.findBySourceId(sourceId));
+		}else{
+			voivoRepository.save(dataPoint.getVoivo());
 		}
 	}
 }

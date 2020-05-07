@@ -68,6 +68,9 @@ public class MszScraperService {
 
 
 		String timeString = obj.getString("description");
+
+		System.out.println("Description: \n" + timeString + "\n");
+
 		int timeStringStart = timeString.indexOf("na : ") + 5;
 		timeString = timeString.substring(timeStringStart);
 
@@ -75,6 +78,8 @@ public class MszScraperService {
 		snapshotService.createSnapshot(LocalDateTime.parse(timeString, formatter));
 
 		dataString = obj.getString("data");
+
+		System.out.print("Data: \n" + dataString + "\n");
 
 		Scanner scanner = new Scanner(dataString);
 		scanner.nextLine();
@@ -85,8 +90,8 @@ public class MszScraperService {
 			String[] values = line.split(CSV_SPLIT_CHAR);
 
 			snapshotService.addVirusDataPoint(values[VOIVO_CSV_COLUMN],
-					Long.parseLong(values[CASES_CSV_COLUMN]),
-					Long.parseLong(values[DEATHS_CSV_COLUMN]),
+					Long.parseLong(values[CASES_CSV_COLUMN].replaceAll(" ", "")),
+					Long.parseLong(values[DEATHS_CSV_COLUMN].replaceAll(" ", "")),
 					values[SOURCE_ID_CSV_COLUMN]);
 
 		}

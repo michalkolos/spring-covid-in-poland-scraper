@@ -18,7 +18,8 @@ public class Snapshot {
 	LocalDateTime dateTime;
 
 
-	@OneToMany(mappedBy = "snapshot", cascade = {CascadeType.ALL})
+//	@OneToMany(mappedBy = "snapshot", cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy = "snapshot")
 	private Set<VirusDataPoint> virusDataPoints = new HashSet<>();
 
 
