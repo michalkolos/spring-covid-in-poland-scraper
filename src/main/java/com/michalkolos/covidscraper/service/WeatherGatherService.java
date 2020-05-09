@@ -47,7 +47,7 @@ public class WeatherGatherService {
 	private static final Logger log = LoggerFactory.getLogger(WeatherGatherService.class);
 
 
-	public Map<String, WeatherDataPoint> getAllWeather() {
+	public Map<String, WeatherDataPoint> collectData() {
 		Map<String, WeatherDataPoint> weatherMap = new HashMap<>();
 
 		VOIVO_COORDS.forEach((voivoCode, coords)->{
@@ -68,9 +68,12 @@ public class WeatherGatherService {
 							e.getMessage());
 				}
 			}
-
 			weatherMap.put(voivoCode, weatherDataPoint);
 		});
+
+		if(weatherMap.size() == 0){
+			log.error("Error getting weather data.");
+		}
 
 		return weatherMap;
 	}

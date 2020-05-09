@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 
-public interface VirusDataPointRepository extends JpaRepository<VirusDataPoint, Long> {
-	boolean existsByDateTimeAndVoivo(LocalDateTime dateTime, Voivo voivo);
-
-	VirusDataPoint findAllByDateTimeBetweenAndVoivo(
-			LocalDateTime dateTime, LocalDateTime dateTime2, Voivo voivo);
+public interface WeatherDataPointRepository extends JpaRepository<WeatherDataPoint, Long> {
+	boolean existsByGatheredTimeAndVoivo(LocalDateTime gatheredTime, Voivo voivo);
+	WeatherDataPoint findAllByGatheredTimeBetweenAndVoivo(
+			LocalDateTime gatheredTime, LocalDateTime gatheredTime2, Voivo voivo);
 
 }
+

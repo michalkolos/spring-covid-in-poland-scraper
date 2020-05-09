@@ -1,6 +1,7 @@
 package com.michalkolos.covidscraper.data.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "VIRUS_DATA")
@@ -17,9 +18,10 @@ public class VirusDataPoint {
 	@Column(name = "DEATHS")
 	private long deaths;
 
-	@ManyToOne
-	@JoinColumn
-	private Snapshot snapshot;
+	@Column(name = "DATE_TIME")
+	LocalDateTime dateTime;
+
+
 
 	@ManyToOne
 	@JoinColumn
@@ -56,13 +58,14 @@ public class VirusDataPoint {
 		this.deaths = deaths;
 	}
 
-	public Snapshot getSnapshot() {
-		return snapshot;
+	public LocalDateTime getDateTime() {
+		return dateTime;
 	}
 
-	public void setSnapshot(Snapshot snapshot) {
-		this.snapshot = snapshot;
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
+
 
 	public Voivo getVoivo() {
 		return voivo;

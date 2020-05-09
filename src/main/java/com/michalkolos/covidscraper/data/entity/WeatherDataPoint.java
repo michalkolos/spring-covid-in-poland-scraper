@@ -48,16 +48,7 @@ public class WeatherDataPoint {
 
 	@ManyToOne
 	@JoinColumn
-	private Snapshot snapshot;
-
-	@ManyToOne
-	@JoinColumn
 	private Voivo voivo;
-
-
-
-
-
 
 
 
@@ -163,13 +154,7 @@ public class WeatherDataPoint {
 		this.gatheredTime = gatheredTime;
 	}
 
-	public Snapshot getSnapshot() {
-		return snapshot;
-	}
 
-	public void setSnapshot(Snapshot snapshot) {
-		this.snapshot = snapshot;
-	}
 
 	public Voivo getVoivo() {
 		return voivo;
