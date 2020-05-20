@@ -53,7 +53,12 @@ public class DataPersistenceService {
 		virusMap.forEach((String voivoCode, VirusDataPoint dataPoint)->{
 			Voivo voivo = voivoRepository.findBySourceId(voivoCode);
 			dataPoint.setVoivo(voivo);
-			virusDataPointRepository.save(dataPoint);
+
+			if(!virusDataPointRepository.existsByDateTimeAndVoivo(
+					dataPoint.getDateTime(), dataPoint.getVoivo())){
+
+				virusDataPointRepository.save(dataPoint);
+			}
 		});
 
 	}
@@ -65,7 +70,12 @@ public class DataPersistenceService {
 		weatherMap.forEach((String voivoCode, WeatherDataPoint dataPoint)->{
 			Voivo voivo = voivoRepository.findBySourceId(voivoCode);
 			dataPoint.setVoivo(voivo);
-			weatherDataPointRepository.save(dataPoint);
+
+			if (!weatherDataPointRepository.existsByGatheredTimeAndVoivo(
+					dataPoint.getGatheredTime(), dataPoint.getVoivo())) {
+
+				weatherDataPointRepository.save(dataPoint);
+			}
 		});
 	}
 }

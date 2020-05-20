@@ -116,3 +116,6 @@ bundles/
 vendor/pkg/
 pyenv
 Vagrantfile
+
+### Passwords ###
+application-test.properties

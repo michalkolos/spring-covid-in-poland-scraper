@@ -1,7 +1,9 @@
 package com.michalkolos.covidscraper.data.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,10 +23,11 @@ public class Voivo {
 
 
 	@OneToMany(mappedBy = "voivo", cascade = {CascadeType.ALL})
-	private Set<VirusDataPoint> virusDataPoints = new HashSet<>();
+	private List<VirusDataPoint> virusDataPoints = new ArrayList<>();
 
 
-
+	@OneToMany(mappedBy = "voivo", cascade = {CascadeType.ALL})
+	private List<WeatherDataPoint> weatherDataPoints = new ArrayList<>();
 
 
 
@@ -56,11 +59,20 @@ public class Voivo {
 
 
 
-	public Set<VirusDataPoint> getVirusDataPoints() {
+	public List<VirusDataPoint> getVirusDataPoints() {
 		return virusDataPoints;
 	}
 
-	public void setVirusDataPoints(Set<VirusDataPoint> virusDataPoints) {
+	public void setVirusDataPoints(List<VirusDataPoint> virusDataPoints) {
 		this.virusDataPoints = virusDataPoints;
 	}
+
+	public List<WeatherDataPoint> getWeatherDataPoints() {
+		return weatherDataPoints;
+	}
+
+	public void setWeatherDataPoints(List<WeatherDataPoint> weatherDataPoints) {
+		this.weatherDataPoints = weatherDataPoints;
+	}
 }
+

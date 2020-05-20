@@ -1,12 +1,15 @@
 package com.michalkolos.covidscraper.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "VIRUS_DATA")
-public class VirusDataPoint {
+public class VirusDataPoint implements Comparable {
 
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "VIRUS_DATA_POINT_ID")
@@ -22,15 +25,19 @@ public class VirusDataPoint {
 	LocalDateTime dateTime;
 
 
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private Voivo voivo;
 
 
+	@Override
+	public int compareTo(Object o) {
 
+		LocalDateTime compDate = ((VirusDataPoint)o).getDateTime();
 
-
+		return this.dateTime.compareTo(compDate);
+	}
 
 
 
@@ -74,4 +81,6 @@ public class VirusDataPoint {
 	public void setVoivo(Voivo voivo) {
 		this.voivo = voivo;
 	}
+
+
 }

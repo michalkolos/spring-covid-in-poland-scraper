@@ -1,5 +1,7 @@
 package com.michalkolos.covidscraper.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -7,6 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "WEATHER")
 public class WeatherDataPoint {
 
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="WEATHER_ID")
@@ -46,6 +49,7 @@ public class WeatherDataPoint {
 	private LocalDateTime gatheredTime;
 
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private Voivo voivo;
