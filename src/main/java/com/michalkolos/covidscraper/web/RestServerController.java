@@ -1,12 +1,11 @@
 package com.michalkolos.covidscraper.web;
 
 import com.michalkolos.covidscraper.data.entity.Voivo;
-import com.michalkolos.covidscraper.service.DataProviderService;
+import com.michalkolos.covidscraper.business.service.DataProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*")

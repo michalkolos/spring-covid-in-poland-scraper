@@ -3,9 +3,9 @@ package com.michalkolos.covidscraper.scheduled;
 import com.michalkolos.covidscraper.data.entity.VirusDataPoint;
 import com.michalkolos.covidscraper.data.entity.Voivo;
 import com.michalkolos.covidscraper.data.entity.WeatherDataPoint;
-import com.michalkolos.covidscraper.service.DataPersistenceService;
-import com.michalkolos.covidscraper.service.VirusScraperService;
-import com.michalkolos.covidscraper.service.WeatherGatherService;
+import com.michalkolos.covidscraper.business.service.DataPersistenceService;
+import com.michalkolos.covidscraper.business.service.VirusDataService;
+import com.michalkolos.covidscraper.business.service.WeatherDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,18 +17,18 @@ import java.util.Map;
 @Component
 public class AppStartupRunner implements ApplicationRunner {
 
-	VirusScraperService virusScraperService;
-	WeatherGatherService weatherGatherService;
+	VirusDataService virusDataService;
+	WeatherDataService weatherDataService;
 	DataPersistenceService dataPersistenceService;
 
 	@Autowired
 	public AppStartupRunner(
-			VirusScraperService virusScraperService,
-			WeatherGatherService weatherGatherService,
-            DataPersistenceService dataPersistenceService) {
+			VirusDataService virusDataService,
+			WeatherDataService weatherDataService,
+			DataPersistenceService dataPersistenceService) {
 
-		this.virusScraperService = virusScraperService;
-		this.weatherGatherService = weatherGatherService;
+		this.virusDataService = virusDataService;
+		this.weatherDataService = weatherDataService;
 		this.dataPersistenceService = dataPersistenceService;
 	}
 
@@ -43,13 +43,13 @@ public class AppStartupRunner implements ApplicationRunner {
 
 //		virusScraperService.collectData();
 
-		List<Voivo> voivos = virusScraperService.collectVoivos();
+		List<Voivo> voivos = virusDataService.collectVoivos();
 
-		Map<String, VirusDataPoint> virusMap = virusScraperService.collectData();
-		virusScraperService.printToLogAllVirusData(virusMap);
+		Map<String, VirusDataPoint> virusMap = virusDataService.collectData();
+		virusDataService.printToLogAllVirusData(virusMap);
 
-		Map<String, WeatherDataPoint> weatherMap = weatherGatherService.collectData();
-		weatherGatherService.printToLogAllWeatherData(weatherMap);
+		Map<String, WeatherDataPoint> weatherMap = weatherDataService.collectData();
+		weatherDataService.printToLogAllWeatherData(weatherMap);
 
 
 		dataPersistenceService.syncVoivos(voivos);

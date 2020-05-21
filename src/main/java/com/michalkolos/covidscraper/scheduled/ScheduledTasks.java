@@ -3,9 +3,9 @@ package com.michalkolos.covidscraper.scheduled;
 import com.michalkolos.covidscraper.data.entity.VirusDataPoint;
 import com.michalkolos.covidscraper.data.entity.Voivo;
 import com.michalkolos.covidscraper.data.entity.WeatherDataPoint;
-import com.michalkolos.covidscraper.service.DataPersistenceService;
-import com.michalkolos.covidscraper.service.VirusScraperService;
-import com.michalkolos.covidscraper.service.WeatherGatherService;
+import com.michalkolos.covidscraper.business.service.DataPersistenceService;
+import com.michalkolos.covidscraper.business.service.VirusDataService;
+import com.michalkolos.covidscraper.business.service.WeatherDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +20,18 @@ public class ScheduledTasks {
 
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
-	VirusScraperService virusScraperService;
-	WeatherGatherService weatherGatherService;
+	VirusDataService virusDataService;
+	WeatherDataService weatherDataService;
 	DataPersistenceService dataPersistenceService;
 
 	@Autowired
 	public ScheduledTasks(
-			VirusScraperService virusScraperService,
-			WeatherGatherService weatherGatherService,
+			VirusDataService virusDataService,
+			WeatherDataService weatherDataService,
 			DataPersistenceService dataPersistenceService) {
 
-		this.virusScraperService = virusScraperService;
-		this.weatherGatherService = weatherGatherService;
+		this.virusDataService = virusDataService;
+		this.weatherDataService = weatherDataService;
 		this.dataPersistenceService = dataPersistenceService;
 	}
 
@@ -46,10 +46,10 @@ public class ScheduledTasks {
 
 		log.info("Logging virus data");
 
-		List<Voivo> voivos = virusScraperService.collectVoivos();
+		List<Voivo> voivos = virusDataService.collectVoivos();
 
-		Map<String, VirusDataPoint> virusMap = virusScraperService.collectData();
-		virusScraperService.printToLogAllVirusData(virusMap);
+		Map<String, VirusDataPoint> virusMap = virusDataService.collectData();
+		virusDataService.printToLogAllVirusData(virusMap);
 
 		dataPersistenceService.syncVoivos(voivos);
 		dataPersistenceService.saveVirusDataPoints(virusMap);
@@ -61,8 +61,8 @@ public class ScheduledTasks {
 
 		log.info("Logging weather data");
 
-		Map<String, WeatherDataPoint> weatherMap = weatherGatherService.collectData();
-		weatherGatherService.printToLogAllWeatherData(weatherMap);
+		Map<String, WeatherDataPoint> weatherMap = weatherDataService.collectData();
+		weatherDataService.printToLogAllWeatherData(weatherMap);
 
 		dataPersistenceService.saveWeatherDataPoints(weatherMap);
 	}
