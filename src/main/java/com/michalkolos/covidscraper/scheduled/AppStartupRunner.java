@@ -1,4 +1,4 @@
-package com.michalkolos.covidscraper;
+package com.michalkolos.covidscraper.scheduled;
 
 import com.michalkolos.covidscraper.data.entity.VirusDataPoint;
 import com.michalkolos.covidscraper.data.entity.Voivo;

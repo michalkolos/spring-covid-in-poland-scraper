@@ -35,7 +35,13 @@ public class ScheduledTasks {
 		this.dataPersistenceService = dataPersistenceService;
 	}
 
-	@Scheduled(fixedRate = 360 * 60000) // Check virus data every 6hrs
+
+//	@Scheduled(fixedRate = 1000)
+//	public void scheduledTest(){
+//		log.info("Test scheduled task fired!");
+//	}
+
+	@Scheduled(fixedRate = 240 * 60000) // Check virus data every 4hrs
 	public void logCovid(){
 
 		log.info("Logging virus data");
