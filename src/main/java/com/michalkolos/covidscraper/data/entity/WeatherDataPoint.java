@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "WEATHER")
-public class WeatherDataPoint {
+public class WeatherDataPoint implements Comparable {
 
 	@JsonIgnore
 	@Id
@@ -56,8 +56,12 @@ public class WeatherDataPoint {
 
 
 
+	@Override
+	public int compareTo(Object o) {
+		LocalDateTime compDate = ((WeatherDataPoint)o).getGatheredTime();
 
-
+		return this.gatheredTime.compareTo(compDate);
+	}
 
 
 
@@ -167,4 +171,6 @@ public class WeatherDataPoint {
 	public void setVoivo(Voivo voivo) {
 		this.voivo = voivo;
 	}
+
+
 }
