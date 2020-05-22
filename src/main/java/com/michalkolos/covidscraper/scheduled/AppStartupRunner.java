@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-@Component
+//@Component
 public class AppStartupRunner implements ApplicationRunner {
 
 	VirusDataService virusDataService;
@@ -38,7 +38,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
 
 
-	@Override
+//	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
 //		virusScraperService.collectData();
